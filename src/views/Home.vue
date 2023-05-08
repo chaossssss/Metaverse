@@ -1,4 +1,6 @@
 <template>
-  <div>Home</div>
+  <div>
+    <div>相机</div>
+  </div>
 </template>
 <script steup></script>
