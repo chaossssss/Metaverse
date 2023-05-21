@@ -6,8 +6,8 @@ import { onMounted } from "vue";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import Stats from "three/examples/jsm/libs/stats.module";
-
-var controls, scene, camera, renderer, ambientLight, pointLight, stats;
+import { GUI } from "three/examples/jsm/libs/dat.gui.module";
+var controls, scene, camera, renderer, ambientLight, pointLight, stats, datGui, gui, sphere;
 // 初始化
 const init = () => {
   // 创建场景
@@ -59,7 +59,7 @@ const init = () => {
   // 球体
   const sphereGeometry = new THREE.SphereGeometry(3, 50, 50);
   const sphereMaterial = new THREE.MeshPhongMaterial({ color: 0x7777ff });
-  const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
+  sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
   sphere.position.set(20, 4, 2);
   sphere.castShadow = true;
   scene.add(sphere);
@@ -73,12 +73,23 @@ const init = () => {
   stats.domElement.style.left = "0px";
   stats.domElement.style.top = "0px";
   document.body.appendChild(stats.domElement);
+  // 创建GUI
+  gui = {
+    PositionX: 20,
+    PositionY: 4,
+    PositionZ: 2,
+  }
+  datGui = new GUI();
+  datGui.add(gui, "PositionX", -10, 10)
+  datGui.add(gui, "PositionY", -10, 10)
+  datGui.add(gui, "PositionZ", -10, 10)
 };
 // 渲染
 const animate = () => {
   requestAnimationFrame(animate);
   controls.update();
   renderer.render(scene, camera);
+  sphere.position.set(gui.PositionX, gui.PositionY, gui.PositionZ)
   stats.update();
 };
 onMounted(() => {
