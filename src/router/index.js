@@ -4,11 +4,11 @@ import Home from "@/views/Home.vue";
 const routes = [
   {
     path: "/",
-    component: Home,
+    component: Base,
   },
   {
     path: "/base",
-    component: Base,
+    component: Home,
   },
 ];
 
