@@ -7,7 +7,17 @@ import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import Stats from "three/examples/jsm/libs/stats.module";
 import { GUI } from "three/examples/jsm/libs/dat.gui.module";
-var controls, scene, camera, renderer, ambientLight, pointLight, stats, datGui, gui, sphere;
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
+var controls,
+  scene,
+  camera,
+  renderer,
+  ambientLight,
+  pointLight,
+  stats,
+  datGui,
+  gui,
+  sphere;
 // 初始化
 const init = () => {
   // 创建场景
@@ -64,6 +74,15 @@ const init = () => {
   sphere.castShadow = true;
   scene.add(sphere);
 
+  // module
+  const loader = new GLTFLoader().setPath("/DamagedHelmet/glTF/");
+  loader.load("DamagedHelmet.gltf", function (gltf) {
+    gltf.scene.position.set(6, 2, 2);
+    gltf.scene.scale.set(2, 2, 2);
+    scene.add(gltf.scene);
+    console.log(gltf);
+  });
+
   // 创建控制器
   controls = new OrbitControls(camera, renderer.domElement);
   // 创建性能监控器
@@ -78,18 +97,18 @@ const init = () => {
     PositionX: 20,
     PositionY: 4,
     PositionZ: 2,
-  }
+  };
   datGui = new GUI();
-  datGui.add(gui, "PositionX", -10, 10)
-  datGui.add(gui, "PositionY", -10, 10)
-  datGui.add(gui, "PositionZ", -10, 10)
+  datGui.add(gui, "PositionX", -10, 10);
+  datGui.add(gui, "PositionY", -10, 10);
+  datGui.add(gui, "PositionZ", -10, 10);
 };
 // 渲染
 const animate = () => {
   requestAnimationFrame(animate);
   controls.update();
   renderer.render(scene, camera);
-  sphere.position.set(gui.PositionX, gui.PositionY, gui.PositionZ)
+  sphere.position.set(gui.PositionX, gui.PositionY, gui.PositionZ);
   stats.update();
 };
 onMounted(() => {
